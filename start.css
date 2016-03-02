@@ -1,3 +1,4 @@
+
 body {
     background: black;
     margin: 4em;
@@ -16,3 +17,13 @@ a {
     color: #aaa;
 
 }
+
+::selection{
+	background: #0a0;
+	color: #aaa;
+}
+
+#quote::selection{
+	color: #000;
+}
+

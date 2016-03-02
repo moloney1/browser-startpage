@@ -20,7 +20,7 @@ a {
 
 ::selection{
 	background: #0a0;
-	color: #aaa;
+	color: #fff;
 }
 
 #quote::selection{

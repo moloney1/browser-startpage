@@ -5,22 +5,20 @@
 
 	<link rel="shortcut icon" href="Favicon.ico">
 	<link rel="stylesheet" href="start.css">
-	<script type="text/javascript" src="clock.js" defer></script>
-	<script type="text/javascript" src="main.js" defer></script>
-	<script type="text/javascript" src="weather.js"></script>
 
-	<script>
-	Weather.getCurrent("", function(current) {
-  console.log(
-    ["currently:",current.temperature(),"and",current.conditions()].join(" ")
-  );
-});
-
+	<script>document.addEventListener("DOMContentLoaded", function(){
 	
-
-	</script>
-	<script type="text/javascript" src="quote.js" defer></script>
-	<script>Weather.getCurrent("Kansas City",function(current){console.log(Weather.kelvinToCelsius(current.temperature()))});</script>
+		var m = document.createElement("script");
+		m.src = "main.js";
+		document.body.appendChild(m);
+		var c = document.createElement("script");
+		c.src = "clock.js";
+		document.body.appendChild(c);
+		var q = document.createElement("script");
+		q.src = "quote.js";
+		document.body.appendChild(q);
+	
+	})</script>
 	<title>Start here.</title>
 
 </head>

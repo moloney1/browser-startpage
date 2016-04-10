@@ -7,6 +7,19 @@
 	<link rel="stylesheet" href="start.css">
 	<script type="text/javascript" src="clock.js" defer></script>
 	<script type="text/javascript" src="main.js" defer></script>
+	<script type="text/javascript" src="weather.js"></script>
+
+	<script>
+	Weather.getCurrent("", function(current) {
+  console.log(
+    ["currently:",current.temperature(),"and",current.conditions()].join(" ")
+  );
+});
+
+	
+
+	</script>
+	<script>Weather.getCurrent("Kansas City",function(current){console.log(Weather.kelvinToCelsius(current.temperature()))});</script>
 	<title>Start here.</title>
 
 </head>
@@ -39,6 +52,8 @@
 	<a href="http://github.com">github</a><br>
 	<a href="http://thehackernews.com/">hacker news</a><br>
 	<a href="http://slack.com">slack</a><br>
+
+
 
 </body>
 </html>

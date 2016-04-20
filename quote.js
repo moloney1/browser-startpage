@@ -7,5 +7,8 @@ if (!response.error){
 	// console.log(quoteObj.quote);
 	// console.log(quoteObj.author);
 	var quoteText = "\"" + quoteObj.quote + "\" -" + quoteObj.author;
-	document.getElementById("quote").innerHTML = quoteText;
+	document.addEventListener("DOMContentLoaded", function(){
+		document.getElementById("quote").innerHTML = quoteText;
+	})
+	
 }

@@ -11,9 +11,12 @@ year = date.getFullYear();
 
 // var dateString = day + ", " + [day_month, month, year].join(" ");
 var dateString = day + ", " + day_month + " " + month + " " + year; // faster apparently
-document.getElementById("date").innerHTML = dateString + "<br>";
 
-var refresh = window.setInterval(updateClock, 100);
+var refresh;
+document.addEventListener("DOMContentLoaded", function(){
+	document.getElementById("date").innerHTML = dateString + "<br>";
+	refresh = window.setInterval(updateClock, 100);
+});
 
 var timeString;
 var hour, minute, second;

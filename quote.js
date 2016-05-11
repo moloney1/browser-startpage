@@ -6,7 +6,12 @@ if (!response.error){
 	var quoteObj = response.contents.quotes[0];
 	// console.log(quoteObj.quote);
 	// console.log(quoteObj.author);
-	var quoteText = "\"" + quoteObj.quote + "\" -" + quoteObj.author;
+
+	var quoteText = "\"" + quoteObj.quote + "\"" //+ quoteObj.author;
+	if (quoteObj.author != null){
+		quoteText += " -" + quoteObj.author;
+	}
+
 	document.addEventListener("DOMContentLoaded", function(){
 		document.getElementById("quote").innerHTML = quoteText;
 	})

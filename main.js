@@ -1,4 +1,35 @@
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", () => {
+	const sites = [
+        {
+            "displayName": "GitHub",
+            "url": "https://github.com/"
+        },
+        {
+            "displayName": "YouTube",
+            "url": "https://youtube.com/"
+        }, 
+        {
+            "displayName": "reddit",
+            "url": "https://reddit.com/"
+        }
+    ]
+
+	
+	let links_ = document.getElementById("links");
+	sites.forEach(site => {
+		links_.innerHTML += `
+			<a
+				href=${site.url}
+				target="_blank"
+			>
+				${site.displayName}
+			</a>
+			<br>
+		`
+	});
+
+	
+
 	var quote = document.getElementById("quote").innerHTML;
 	console.log(quote.substring(184,quote.length-125));
 	quote = quote.substring(186,quote.length-126);
@@ -6,11 +37,6 @@ document.addEventListener("DOMContentLoaded", function(){
 	document.getElementById("quote").innerHTML = quote;
 
 	var links = document.getElementsByTagName("a");
-
-	for (var i = 0; i < links.length; i++){
-	  links[i].setAttribute("target", "_blank");
-	//  links[i].addEventListener("click", popUnder);
-	}
 
 	function popUnder(e) {
 	  var url = e.srcElement.href;

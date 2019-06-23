@@ -2,7 +2,7 @@ const Url = "http://quotes.rest/qod.json?category=inspire";
 fetch(Url)
 .then(res =>  res.json())
 .then(data => {
-	//var quote = data.quotes[0]
+
 	var quoteObj = data.contents.quotes[0];
 	var quoteTxt = `"${quoteObj.quote}"`;
 	if (quoteObj.author != null) {

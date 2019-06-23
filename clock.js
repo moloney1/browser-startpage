@@ -1,33 +1,37 @@
-var date = new Date();
-var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let date = new Date();
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-var day, day_month, month, year;
+let day, day_month, month, year;
 
 day = days[date.getDay()];
-day_month = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+day_month = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
 month = months[date.getMonth()];
 year = date.getFullYear();
 
-// var dateString = day + ", " + [day_month, month, year].join(" ");
-var dateString = day + ", " + day_month + " " + month + " " + year; // faster apparently
+let dateString = `${day}, ${day_month} ${month} ${year}`; 
 
-var refresh;
-document.addEventListener("DOMContentLoaded", function(){
+let refresh;
+document.addEventListener("DOMContentLoaded", () => {
+
+	updateClock();
+
 	document.getElementById("date").innerHTML = dateString + "<br>";
-	refresh = window.setInterval(updateClock, 100);
+	refresh = window.setInterval(updateClock, 1000);
+
 });
 
-var timeString;
-var hour, minute, second;
+let timeString;
+let hour, minute, second;
 
-function updateClock(){
+function updateClock() {
 
 	date = new Date();
-	hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
-	minute = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-	second = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-	timeString = [hour,minute,second].join(":");
+	hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours();
+	minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+	second = date.getSeconds() < 10 ? `0${date.getSeconds()}` : date.getSeconds();
+
+	timeString = [hour, minute, second].join(":");
 
 	document.getElementById("clock").innerHTML = timeString;
 

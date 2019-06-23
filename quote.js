@@ -1,19 +1,16 @@
-var xhr = new XMLHttpRequest();
-xhr.open("GET","http://quotes.rest/qod.json?category=inspire",false);
-xhr.send();
-var response = JSON.parse(xhr.responseText);
-if (!response.error){
-	var quoteObj = response.contents.quotes[0];
-	// console.log(quoteObj.quote);
-	// console.log(quoteObj.author);
-
-	var quoteText = "\"" + quoteObj.quote + "\"" //+ quoteObj.author;
-	if (quoteObj.author != null){
-		quoteText += " -" + quoteObj.author;
+const Url = "http://quotes.rest/qod.json?category=inspire";
+fetch(Url)
+.then(res =>  res.json())
+.then(data => {
+	//var quote = data.quotes[0]
+	var quoteObj = data.contents.quotes[0];
+	var quoteTxt = `"${quoteObj.quote}"`;
+	if (quoteObj.author != null) {
+		quoteTxt += ` -${quoteObj.author}`;
 	}
 
-	document.addEventListener("DOMContentLoaded", function(){
-		document.getElementById("quote").innerHTML = quoteText;
-	})
-	
-}
+	document.getElementById("quote").innerHTML = quoteTxt;
+	console.log(quoteTxt);
+
+})
+.catch(err => console.log(err))

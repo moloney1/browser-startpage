@@ -1,6 +1,8 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const app = express();
+//app.use(express.json());
+app.use(express.urlencoded());
 const port = 5555;
 
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {
@@ -41,7 +43,6 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 		collection.drop((err, delOk) => {
 			if (err) console.log(err);
 			if (delOk) console.log("collection dropped");
-			client.close();
 		});		
 		res.send("dropped");
 	});
@@ -51,17 +52,78 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 			if (err) {
 				console.log("READ ERROR");
 				console.log(err);
+				res.sendStatus(500);
 			}
+			res.status(200).send(docs);
 			console.log(docs);
 		});	
 	});
 
-	
-	app.post('/', (req, res) => {
-		res.send('Got a POST request');
-	})
+	app.post('/testpost', (req, res) => {
+		console.log(`Received: URL ${req.body.url},
+		display name ${req.body.displayName}`);
+		res.status(200).send("post acknowledged");
+	});
 
+	// TODO handle duplicates
+	app.post('/addSite', (req, res) => {
+		let url = req.body.url;
+		let displayName = req.body.displayName;
 
+		collection.insertOne({
+			url: url,
+			displayName: displayName
+		}, (err, result) => {
+			if (err) {
+				console.log("INSERT ERROR");
+				console.log(err);
+				res.sendStatus(500);
+			} else {
+				console.log(`Inserted ${url}:${displayName}`)
+				res.sendStatus(204);
+			}
+		});
+	});
+
+	app.post('/query', (req, res) => {
+		let url = req.body.url;
+		let displayName = req.body.displayName;
+
+		collection.find({
+			url: url,
+			displayName: displayName
+		}).toArray((err, docs) => {
+			if (err) {
+				res.sendStatus(500);
+			}
+			if (docs) {
+				console.log(docs);
+				res.status(200).send(docs);
+			} else {
+				res.sendStatus(400);
+			}
+		});
+	});
+
+	app.post('/del', (req, res) => {
+		let url = req.body.url;
+		let displayName = req.body.displayName;
+
+		collection.deleteOne({
+			url: url,
+			displayName: displayName
+		}, (err, result) => {
+			if (err) {
+				res.status(500).send("Error deleting");
+			}
+			if (result.result.n) {
+				res.status(200).send("Delete successful");
+			} else {
+				res.status(400).send("No such record");
+			}
+		});
+
+	});
 
 	app.listen(port, () => {
 		console.log(`listening on port ${port}`);

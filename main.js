@@ -46,10 +46,20 @@ const sites = [
     ]
 
 document.addEventListener("DOMContentLoaded", () => {
-		
+
+	fetch("http://localhost:5555/dump")
+	.then(res => res.json())
+	.then(data => {
+		if (!data || data.length === 0) throw err;
+		populate(data)
+	})
+	.catch(err => populate(sites));
+	
 	let links = document.getElementById("links");
-	sites.forEach(site => {
-		links.innerHTML += `
+
+	let populate = (siteList) => {
+		siteList.forEach(site => {
+			links.innerHTML += `
 			<a
 				href=${site.url}
 				target="_blank"
@@ -57,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
 				${site.displayName}</a>
 			<br>
 		`
-	});
+		});
+	}
 
 	let quote = document.getElementById("quote").innerHTML;
 	console.log(quote.substring(184,quote.length-125));
@@ -65,15 +76,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.getElementById("quote").innerHTML = quote;
 
-	function popUnder(e) {
-	  let url = e.srcElement.href;
-	  openNewBackgroundTab(url);
-	  e.preventDefault();
-	}
-
-	function openNewBackgroundTab(url){
-	  window.open(url, "s", "width= 640, height= 480, left=0, top=0, resizable=yes, toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no").blur();
-	  window.focus();
-	}
 });
 

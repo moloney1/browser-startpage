@@ -1,9 +1,12 @@
 const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const app = express();
+const cors = require('cors')
 //app.use(express.json());
-app.use(express.urlencoded());
 const port = 5555;
+
+app.use(express.urlencoded());
+app.use(cors());
 
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 
@@ -47,7 +50,7 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 		res.send("dropped");
 	});
 
-	app.get('/dump', (req, res) => {
+	app.get('/dump', cors(), (req, res) => {
 		collection.find({}).toArray((err, docs) => {
 			if (err) {
 				console.log("READ ERROR");

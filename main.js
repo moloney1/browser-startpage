@@ -43,10 +43,11 @@ const sites = [
 			"displayName": "twitch",
 			"url": "https://twitch.tv"
 		}
-    ]
-
+	]
+	
 document.addEventListener("DOMContentLoaded", () => {
 
+	// query for all sites and populate 
 	fetch("http://localhost:5555/dump")
 	.then(res => res.json())
 	.then(data => {
@@ -54,44 +55,25 @@ document.addEventListener("DOMContentLoaded", () => {
 		populate(data)
 	})
 	.catch(err => populate(sites));
-	
-	let links = document.getElementById("links");
 
 	let populate = (siteList) => {
 		siteList.forEach(site => {
-			links.innerHTML += `
-			<a
-				href=${site.url}
-				target="_blank"
-			>
-				${site.displayName}</a>
-			<br>
-		`
+			drawLink(site.url, site.displayName);
 		});
 	}
 
-	let addLinkBtn = document.getElementById("addLinkBtn");
-	let addLinkForm = document.getElementById("addLinkForm");
+	let drawLink = (url, displayName) => {
+		document.getElementById('links').innerHTML += `
+		<a
+			href=${url}
+			target="_blank"
+		>
+			${displayName}</a>
+		<br>
+		`
+	}
 
-	// oh man this needs a refactor
-	addLinkForm.addEventListener("submit", (e) => {
-		e.preventDefault();
-		let formData = new FormData(addLinkForm);
-
-		let url = formData.get("url");
-		let displayName = formData.get("displayName");
-
-		links.innerHTML += `
-			<a 
-				href=${url}
-				target="_blank"
-			>
-				${displayName}</a>
-			<br>
-		`;
-
-		console.log(`${url} + ${displayName}`);
-
+	let addNewSite = (url, displayName) => {
 		fetch ("http://localhost:5555/addSite", {
   			method: "POST",
     		mode: "cors",
@@ -104,19 +86,33 @@ document.addEventListener("DOMContentLoaded", () => {
 			})
 			})
 			.then((res) => {
+				drawLink(url, displayName);
 				console.log(res.status)
 			})
 			.catch((err) => {
   				console.error(err)
 			});
+	}
+
+	let addLinkBtn = document.getElementById("addLinkBtn");
+	let addLinkForm = document.getElementById("addLinkForm");
+
+	addLinkForm.addEventListener("submit", (e) => {
+		e.preventDefault();
+		let formData = new FormData(addLinkForm);
+
+		let url = formData.get("url");
+		let displayName = formData.get("displayName");
+
+		addNewSite(url, displayName);
 
 		addLinkForm.style.visibility = "hidden";
 		addLinkBtn.style.visibility = "visible";
 
 	})
 
+	// toggle link/button visibility
 	addLinkBtn.addEventListener('click', (e) => {
-//		addLinkBtn.remove();
 		addLinkBtn.style.visibility = "hidden";
 		addLinkForm.style.visibility = "visible";
 	});

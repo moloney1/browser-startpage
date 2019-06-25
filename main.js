@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	let addLinkBtn = document.getElementById("addLinkBtn");
 	let addLinkForm = document.getElementById("addLinkForm");
 
+	// oh man this needs a refactor
 	addLinkForm.addEventListener("submit", (e) => {
 		e.preventDefault();
 		let formData = new FormData(addLinkForm);
@@ -80,14 +81,43 @@ document.addEventListener("DOMContentLoaded", () => {
 		let url = formData.get("url");
 		let displayName = formData.get("displayName");
 
+		links.innerHTML += `
+			<a 
+				href=${url}
+				target="_blank"
+			>
+				${displayName}</a>
+			<br>
+		`;
+
 		console.log(`${url} + ${displayName}`);
 
+		fetch ("http://localhost:5555/addSite", {
+  			method: "POST",
+    		mode: "cors",
+    		headers: {
+    			"Content-Type": "application/json"
+    		},
+    		body: JSON.stringify({
+				url: url,
+				displayName: displayName
+			})
+			})
+			.then((res) => {
+				console.log(res.status)
+			})
+			.catch((err) => {
+  				console.error(err)
+			});
+
 		addLinkForm.style.visibility = "hidden";
+		addLinkBtn.style.visibility = "visible";
 
 	})
 
 	addLinkBtn.addEventListener('click', (e) => {
-		addLinkBtn.remove();
+//		addLinkBtn.remove();
+		addLinkBtn.style.visibility = "hidden";
 		addLinkForm.style.visibility = "visible";
 	});
 

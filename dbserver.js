@@ -2,7 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const express = require('express');
 const app = express();
 const cors = require('cors')
-//app.use(express.json());
+app.use(express.json());
 const port = 5555;
 
 app.use(express.urlencoded());
@@ -65,6 +65,7 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 	app.post('/testpost', (req, res) => {
 		console.log(`Received: URL ${req.body.url},
 		display name ${req.body.displayName}`);
+
 		res.status(200).send("post acknowledged");
 	});
 

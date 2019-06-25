@@ -70,6 +70,27 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 	}
 
+	let addLinkBtn = document.getElementById("addLinkBtn");
+	let addLinkForm = document.getElementById("addLinkForm");
+
+	addLinkForm.addEventListener("submit", (e) => {
+		e.preventDefault();
+		let formData = new FormData(addLinkForm);
+
+		let url = formData.get("url");
+		let displayName = formData.get("displayName");
+
+		console.log(`${url} + ${displayName}`);
+
+		addLinkForm.style.visibility = "hidden";
+
+	})
+
+	addLinkBtn.addEventListener('click', (e) => {
+		addLinkBtn.remove();
+		addLinkForm.style.visibility = "visible";
+	});
+
 	let quote = document.getElementById("quote").innerHTML;
 	console.log(quote.substring(184,quote.length-125));
 	quote = quote.substring(186,quote.length-126);
